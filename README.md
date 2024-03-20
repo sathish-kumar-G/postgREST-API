@@ -4,6 +4,14 @@ PostgREST is a standalone web server that turns the PostgreSQL database directly
 
 For detailed documentation and information, visit [PostgREST website](https://postgrest.org/en/v12/index.html).
 
+# Why?
+
+One of the great things about [PostgREST](http://postgrest.org/) is that it can remove any indirection between your React application and your database, treating your data model itself as a *"single, declarative source of truth"*.
+
+Redux-PostgREST fully embraces this philosophy. Your tables, views, and functions are mapped to *redux action types* using PostgREST's documentation endpoint. 
+
+Now, when you want to query your database, then *select the response data*! 👍 
+
 ## 1. Get it Running
 
 ### a) Create PostgreSQL Container
