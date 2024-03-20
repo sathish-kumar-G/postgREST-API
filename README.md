@@ -9,10 +9,35 @@ For detailed documentation and information, visit [PostgREST website](https://po
 ### a) Create PostgreSQL Container
 
 ```bash
-docker pull postgres:14.11
-sudo docker run --name tutorial -p 5432:5432 \
-                           -e POSTGRES_PASSWORD=password \
-                           -d postgres
+version: "3.8"
+
+services:
+    api-server-db-demo:
+        image: postgres:14-alpine
+        container_name: postgrest-db-demo
+        ports:
+            - "5432:5432"
+        healthcheck:
+            test: [ "CMD", "pg_isready" ]
+            interval: 10s
+            timeout: 7s
+            start_period: 2s
+            retries: 3
+        environment:
+            POSTGRES_USER: user
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: postgrest_db_demo
+        volumes:
+            - restful-server-data:/var/lib/postgresql/data
+        restart: "no"
+        networks:
+            - postgrest_demo
+
+volumes:
+    restful-server-data:
+
+networks:
+    postgrest_demo:
 ```
 
 ### b) Install PostgREST
@@ -272,11 +297,20 @@ Grant privilege to the anonymous web_anon role for schema and table
 grant usage on schema transit_management to web_anon;
 grant select on transit_management.bus_stops to web_anon;
 ```
-create a dedicated role for connecting to the database, instead of using the highly privileged postgres role. So we’ll do that, name the role authenticator 
+Create a dedicated role for connecting to the database, instead of using the highly privileged postgres role. So we’ll do that, name the role authenticator 
 and also grant it the ability to switch to the web_anon role
 ```bash
 create role authenticator noinherit login password 'password';
 grant web_anon to authenticator;
+```
+Create role called web_user for users who authenticate with the API. This role will have the authority to do anything.
+```bash
+create role web_user nologin;
+grant web_user to authenticator;
+
+grant usage on schema transit_management to web_user;
+grant all on transit_management.bus_stops to web_user;
+grant usage, select on sequence transit_management.bus_stops_seq to web_user;
 ```
 
 ## 3. Run PostgREST
@@ -288,8 +322,8 @@ Here's an example configuration for PostgREST:
 
 ```conf
 # Database connection settings
-db-uri = "postgres://authenticator:password@localhost:5400/marta_db_demo"
-db-schemas = "transit_management,order_svc"
+db-uri = "postgres://authenticator:password@localhost:5432/postgrest_db_demo"
+db-schemas = "transit_management"
 db-anon-role = "web_anon"
 
 # OIDC settings
@@ -324,24 +358,13 @@ To run PostgREST using the provided configuration file (`postgrest.conf`), follo
 ./postgrest postgrest.conf
 ```
 
-## 4. Authentication
-PostgREST is designed to keep the database at the center of API security. All authorization happens in the database. There are three types of roles used by PostgREST, the authenticator, anonymous, and user roles.
+### Oauth2.0 Provider(Aws Cognito)
+The configuration above is set up for integration with AWS Cognito as an OAuth provider. Adjust the OIDC settings (jwt-secret, jwt-audience, jwt-issuer, jwt-role-claim-key) according to your AWS Cognito configuration.
+Make sure to replace placeholders such as authenticator, password, localhost, 5432, marta_db_demo, and other placeholders with your actual database connection details and AWS Cognito settings.
+Ensure that the PostgreSQL database and PostgREST server are properly configured and accessible.
 
 
-CREATE ROLE authenticator LOGIN NOINHERIT NOCREATEDB NOCREATEROLE NOSUPERUSER;
-CREATE ROLE anonymous NOLOGIN;
-CREATE ROLE webuser NOLOGIN;
-We use JSON Web Tokens (JWT) to authenticate API requests. JWT allows us to be stateless and not require database lookups for verification. As you’ll recall, a JWT contains a list of cryptographically signed claims. All claims are allowed, but PostgREST cares specifically about a claim called role.
-
-
-{
-    "role": "todo_user",
-    "exp": 123456789
-}
-Role: The database role under which to execute SQL for API requests.
-Exp: Expiration timestamp for token, expressed in “Unix epoch time”.
-
-## 5. Refer to Other Documents
+## 4. Refer to Other Documents
 - [PostgREST Configuration Reference](https://postgrest.org/en/v12/references/configuration.html#configuration)
 - [PostgREST Errors Reference](https://postgrest.org/en/v12/references/errors.html)
 - [PostgREST API Schemas Reference](https://postgrest.org/en/v12/references/api/schemas.html#schemas)
