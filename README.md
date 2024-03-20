@@ -8,7 +8,9 @@ For detailed documentation and information, visit [PostgREST website](https://po
 
 ### a) Create PostgreSQL Container
 
-```bash
+Here's a Docker Compose configuration to create a PostgreSQL container:
+
+```yaml
 version: "3.8"
 
 services:
@@ -62,12 +64,12 @@ sudo docker exec -it <container-id> /bin/bash
 Inside the container shell:
 
 Create Schema
-```bash
+```sql
 CREATE SCHEMA transit_management;
 ```
 
 Create Sequence
-```bash
+```sql
 CREATE SEQUENCE transit_management.bus_stops_seq
   INCREMENT 1
   MINVALUE 1
@@ -77,7 +79,7 @@ CREATE SEQUENCE transit_management.bus_stops_seq
 ```
 
 Create Table
-```bash
+```sql
 -- Create table
 CREATE TABLE transit_management.bus_stops (
     id INT8 NOT NULL UNIQUE DEFAULT NEXTVAL('transit_management.bus_stops_seq'),
@@ -183,7 +185,7 @@ CREATE TABLE transit_management.bus_stops (
 ```
 
 Add Csv File in the Database container and Insert the data
-```bash
+```sql
 COPY transit_management.bus_stops (
    stop_abbr, 
      stop_name, 
@@ -288,23 +290,23 @@ DELIMITER ',' CSV HEADER;
 ```
 
 Create an anonymous role to use for anonymous web requests. When a request comes in, PostgREST will switch into this role in the database to run queries.
-```bash
+```sql
 create role web_anon nologin;
 ```
 
 Grant privilege to the anonymous web_anon role for schema and table
-```bash
+```sql
 grant usage on schema transit_management to web_anon;
 grant select on transit_management.bus_stops to web_anon;
 ```
 Create a dedicated role for connecting to the database, instead of using the highly privileged postgres role. So we’ll do that, name the role authenticator 
 and also grant it the ability to switch to the web_anon role
-```bash
+```sql
 create role authenticator noinherit login password 'password';
 grant web_anon to authenticator;
 ```
 Create role called web_user for users who authenticate with the API. This role will have the authority to do anything.
-```bash
+```sql
 create role web_user nologin;
 grant web_user to authenticator;
 
