@@ -85,9 +85,10 @@ Role: The database role under which to execute SQL for API requests.
 Exp: Expiration timestamp for token, expressed in “Unix epoch time”.
 
 ## 5. Refer to Other Documents
-PostgREST Configuration Reference
-PostgREST Errors Reference
-PostgREST API Schemas Reference
-PostgreSQL Documentation for SQL CREATE ROLE
-PostgREST Resource Embedding Reference
-PostgREST Tables and Views Reference for Insert
+- [PostgREST Configuration Reference](https://postgrest.org/en/v12/references/configuration.html#configuration)
+- [PostgREST Errors Reference](https://postgrest.org/en/v12/references/errors.html)
+- [PostgREST API Schemas Reference](https://postgrest.org/en/v12/references/api/schemas.html#schemas)
+- [PostgreSQL Documentation for SQL CREATE ROLE](https://www.postgresql.org/docs/current/sql-createrole.html)
+- [PostgREST Resource Embedding Reference](https://postgrest.org/en/v12/references/api/resource_embedding.html)
+- [PostgREST Tables and Views Reference for Insert](https://postgrest.org/en/v12/references/api/tables_views.html#insert)
+
