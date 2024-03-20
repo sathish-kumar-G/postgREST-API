@@ -360,7 +360,7 @@ To run PostgREST using the provided configuration file (`postgrest.conf`), follo
 
 ### Oauth2.0 Provider(Aws Cognito)
 The configuration above is set up for integration with AWS Cognito as an OAuth provider. Adjust the OIDC settings (jwt-secret, jwt-audience, jwt-issuer, jwt-role-claim-key) according to your AWS Cognito configuration.
-Make sure to replace placeholders such as authenticator, password, localhost, 5432, marta_db_demo, and other placeholders with your actual database connection details and AWS Cognito settings.
+Make sure to replace placeholders such as authenticator, password, localhost, 5432, postgrest_db_demo, and other placeholders with your actual database connection details and AWS Cognito settings.
 Ensure that the PostgreSQL database and PostgREST server are properly configured and accessible.
 
 
