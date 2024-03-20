@@ -4,6 +4,11 @@ PostgREST is a standalone web server that turns the PostgreSQL database directly
 
 For detailed documentation and information, visit [PostgREST website](https://postgrest.org/en/v12/index.html).
 
+![PostgREST Logo](https://postgrest.org/logo.svg)
+
+**PostgreSQL Version**: 14  
+**PostgREST Version**: 12.0
+
 # Why?
 
 One of the great things about [PostgREST](http://postgrest.org/) is that it can remove any indirection between your React application and your database, treating your data model itself as a *"single, declarative source of truth"*.
