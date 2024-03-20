@@ -1,0 +1,333 @@
+CREATE SCHEMA transit_management;
+
+
+-- Create sequence
+CREATE SEQUENCE transit_management.bus_stops_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 1
+  CACHE 1;
+
+-- Create table
+CREATE TABLE transit_management.bus_stops (
+    id INT8 NOT NULL UNIQUE DEFAULT NEXTVAL('transit_management.bus_stops_seq'),
+    stop_abbr VARCHAR(255),
+    stop_name VARCHAR(255),
+    node_abbr VARCHAR(255),
+    site_name VARCHAR(255),
+    street_num VARCHAR(255),
+    street_no VARCHAR(255),
+    on_street VARCHAR(255),
+    at_street VARCHAR(255),
+    unit VARCHAR(50),
+    city VARCHAR(100),
+    state VARCHAR(50),
+    zipcode VARCHAR(20),
+    address_summary TEXT,
+    zone_code VARCHAR(50),
+    phone VARCHAR(20),
+    lon FLOAT,
+    lat FLOAT,
+    geo_status INT,
+    cell_area INT,
+    shape_id INT,
+    percent_dist_from_a INT,
+    segment_side_flag VARCHAR(5),
+    comments TEXT,
+    picture_file VARCHAR(255),
+    ivr_num VARCHAR(20),
+    bay_num VARCHAR(20),
+    stop_position VARCHAR(50),
+    facing_dir VARCHAR(20),
+    fare_zone_id INT,
+    curb_type VARCHAR(50),
+    in_service VARCHAR(5),
+    last_service_date VARCHAR(255),
+    accessibility_mask INT,
+    preferred VARCHAR(5),
+    bench VARCHAR(5),
+    shelter VARCHAR(5),
+    lighting VARCHAR(5),
+    garbage VARCHAR(5),
+    telephone VARCHAR(5),
+    sign_post VARCHAR(5),
+    bicycle VARCHAR(5),
+    transfer VARCHAR(5),
+    gps_lon FLOAT,
+    gps_lat FLOAT,
+    gps_height FLOAT,
+    gis_x FLOAT,
+    gis_y FLOAT,
+    user_d3 VARCHAR(50),
+    user_d4 VARCHAR(50),
+    user_d5 VARCHAR(50),
+    xcrd INT,
+    ycrd INT,
+    ipos INT,
+    dist_from_at_st INT,
+    grid INT,
+    parc INT,
+    user_s7 VARCHAR(50),
+    node VARCHAR(50),
+    gtf_wheelchair_boarding VARCHAR(5),
+    user_s10 VARCHAR(50),
+    short_desc VARCHAR(255),
+    crnr VARCHAR(255),
+    addr VARCHAR(255),
+    intr VARCHAR(255),
+    lmrk VARCHAR(255),
+    imps VARCHAR(255),
+    user_a7 VARCHAR(255),
+    stalf VARCHAR(50),
+    stacf VARCHAR(50),
+    stbef VARCHAR(50),
+    staln VARCHAR(50),
+    stacn VARCHAR(50),
+    stben VARCHAR(50),
+    sch_display VARCHAR(255),
+    lighting2 VARCHAR(255),
+    dir_of_travel VARCHAR(255),
+    ivr_sign VARCHAR(255),
+    garbage2 VARCHAR(255),
+    ada_access VARCHAR(255),
+    sidewalk VARCHAR(255),
+    lift VARCHAR(255),
+    curb2 VARCHAR(255),
+    curb_cut VARCHAR(255),
+    telephone2 VARCHAR(255),
+    park_and_ride VARCHAR(255),
+    bus_stop_type VARCHAR(255),
+    neighborhood_typ VARCHAR(255),
+    base VARCHAR(255),
+    lighting3 VARCHAR(255),
+    collect_date VARCHAR(255),
+    map_page VARCHAR(255),
+    county_code VARCHAR(255),
+    station_name VARCHAR(255),
+    gps_radius FLOAT,
+    stop_class VARCHAR(255),
+    stop_cluster_id VARCHAR(255),
+    heading INT,
+    CONSTRAINT stops_pk PRIMARY KEY (id)
+);
+
+
+
+
+COPY transit_management.bus_stops (
+   stop_abbr, 
+     stop_name, 
+   node_abbr, 
+    site_name, 
+  street_num, 
+   street_no, 
+on_street, 
+   at_street, 
+     unit, 
+    city, 
+  state, 
+ zipcode, 
+    address_summary, 
+ zone_code, 
+ phone, 
+ lon, 
+lat, 
+  geo_status, 
+    cell_area, 
+    shape_id, 
+percent_dist_from_a, 
+   segment_side_flag, 
+  comments, 
+  picture_file, 
+    ivr_num, 
+   bay_num,stop_position, 
+  facing_dir, 
+   fare_zone_id, 
+  curb_type, 
+   in_service, 
+  last_service_date, 
+  accessibility_mask, 
+ preferred, 
+    bench, 
+   shelter, 
+    lighting, 
+     garbage, 
+    telephone, 
+     sign_post, 
+    bicycle, 
+ transfer, 
+    gps_lon, 
+    gps_lat, 
+    gps_height, 
+     gis_x, 
+     gis_y, 
+    user_d3, 
+    user_d4, 
+    user_d5, 
+  xcrd, 
+    ycrd, 
+ ipos, 
+    dist_from_at_st, 
+  grid, 
+    parc, 
+    user_s7, 
+  node, 
+     gtf_wheelchair_boarding, 
+ user_s10, 
+    short_desc, 
+    crnr, 
+     addr, 
+    intr, 
+    lmrk, 
+    imps, 
+     user_a7, 
+     stalf, 
+    stacf, 
+  stbef, 
+  staln, 
+    stacn, 
+ stben, 
+    sch_display, 
+   lighting2, 
+   dir_of_travel, 
+   ivr_sign, 
+   garbage2, 
+    ada_access, 
+  sidewalk, 
+     lift, 
+    curb2, 
+     curb_cut, 
+   telephone2, 
+  park_and_ride, 
+     bus_stop_type, 
+     neighborhood_typ, 
+    base, 
+lighting3, 
+   collect_date, 
+  map_page, 
+ county_code, 
+   station_name, 
+     gps_radius, 
+     stop_class, 
+   stop_cluster_id, 
+    heading
+)
+FROM '/tmp/demo/Bus_Stops.csv'
+DELIMITER ',' CSV HEADER;
+
+
+create role web_anon nologin;
+
+grant usage on schema transit_management to web_anon;
+grant select on transit_management.bus_stops to web_anon;
+
+
+create role authenticator noinherit login password 'password';
+grant web_anon to authenticator;
+
+
+
+
+create role web_user nologin;
+grant web_user to authenticator;
+
+grant usage on schema transit_management to web_user;
+grant all on transit_management.bus_stops to web_user;
+grant usage, select on sequence transit_management.bus_stops_seq to web_user;
+
+
+
+
+CREATE SEQUENCE if not exists transit_management.order_id_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 1
+  CACHE 1;
+
+DROP TABLE IF EXISTS transit_management.order;
+CREATE TABLE transit_management.order (
+    id int8 DEFAULT nextval('transit_management.order_id_seq'::regclass) NOT NULL,
+    contact_name varchar(250),
+    email varchar(250),
+    phone_number varchar(250),
+    address_1 varchar(250),
+    address_2 varchar(250),
+    status varchar(100),
+    city varchar(100),
+    state varchar(100),
+    zipcode varchar(100),
+    created_on Timestamp,
+    modified_on Timestamp,
+    CONSTRAINT order_pkey PRIMARY KEY (id)
+);
+
+CREATE SEQUENCE if not exists transit_management.order_item_id_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 1
+  CACHE 1;
+
+DROP TABLE IF EXISTS transit_management.order_item;
+CREATE TABLE transit_management.order_item (
+    id int8 DEFAULT nextval('transit_management.order_item_id_seq'::regclass) NOT NULL,
+     order_id int8,
+     status varchar(100),
+     created_on Timestamp,
+     modified_on Timestamp,
+      CONSTRAINT order_to_order_item_fkey FOREIGN KEY (order_id)
+           REFERENCES transit_management.order (id) MATCH SIMPLE
+           ON UPDATE NO ACTION ON DELETE NO ACTION,
+    CONSTRAINT order_item_pkey PRIMARY KEY (id)
+);
+
+
+grant all on transit_management.order to web_user;
+grant usage, select on sequence transit_management.order_id_seq to web_user;
+
+grant all on transit_management.order_item to web_user;
+grant usage, select on sequence transit_management.order_item_id_seq to web_user;
+
+
+
+
+CREATE SEQUENCE if not exists order_svc.cart_item_id_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 1
+  CACHE 1;
+
+DROP TABLE IF EXISTS order_svc.cart_item;
+CREATE TABLE order_svc.cart_item (
+    id int8 DEFAULT nextval('order_svc.cart_item_id_seq'::regclass) NOT NULL,
+    user_id uuid,
+    created_on Timestamp,
+    modified_on Timestamp,
+    CONSTRAINT cart_item_pkey PRIMARY KEY (id)
+);
+
+
+grant usage on schema order_svc to web_user;
+
+grant usage on schema order_svc to web_anon;
+grant select on order_svc.cart_item to web_anon;
+
+grant usage on schema order_svc to authenticator;
+
+
+
+
+grant all on order_svc.cart_item to web_user;
+grant usage, select on sequence order_svc.cart_item_id_seq to web_user;
+
+
+
+
+
+
+
+
+
