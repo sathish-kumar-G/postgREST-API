@@ -301,9 +301,9 @@ lighting3,
 )
 FROM '/tmp/demo/Bus_Stops.csv'
 DELIMITER ',' CSV HEADER;
-
 ```
 
+### Create Role
 Create an anonymous role to use for anonymous web requests. When a request comes in, PostgREST will switch into this role in the database to run queries.
 ```sql
 create role web_anon nologin;
@@ -329,6 +329,7 @@ grant usage on schema transit_management to web_user;
 grant all on transit_management.bus_stops to web_user;
 grant usage, select on sequence transit_management.bus_stops_seq to web_user;
 ```
+![diagram](https://postgrest.org/en/v12/_images/security-anon-choice.png)
 
 ## 3. Run PostgREST
 Create a configuration file named postgrest.conf with the following content:
