@@ -10,48 +10,62 @@ For detailed documentation and information, visit [PostgREST website](https://po
 
 ```bash
 docker pull postgres:14.11
-sudo docker run --name tutorial -p {port}:5432 \
-                           -e POSTGRES_PASSWORD={password} \
+sudo docker run --name tutorial -p 5432:5432 \
+                           -e POSTGRES_PASSWORD=password \
                            -d postgres
 ```
 
 ### b) Install PostgREST
 Download the latest release from PostgREST GitHub Releases.
 Install PostgREST from the downloaded location:
-bash
-Copy code
+
+```bash
 tar xJf postgrest-<version>-<platform>.tar.xz
+```
+
 Check whether it is installed successfully:
-bash
-Copy code
+```bash
 ./postgrest -h
+```
 
 ## 2. Create Database Schema and Table
-
+```bash
 sudo docker exec -it <container-id> /bin/bash
+```
 Inside the container shell:
 
-
-create schema api;
+```bash
+create schema API;
+```
+```bash
 create table api.todos (
            id serial primary key,
            done boolean not null default false,
            task text not null,
            due timestamptz
           );
+```
+```bash
 insert into api.todos (task) values ('task1'), ('task2');
+```
 
+```bash
 create role web_anon nologin;
+```
+```bash
 grant usage on schema api to web_anon;
 grant select on api.todos to web_anon;
+```
 
+```bash
 create role authenticator noinherit login password '<password>';
 grant web_anon to authenticator;
+```
 
 ## 3. Run PostgREST
 Create a configuration file named postgrest.conf with the following content:
 
-
+```bash
 db-uri = "postgres://<user-name(role-name)>:<password>@localhost:<port>/<database-name>"
 db-schemas = "api"
 db-anon-role = "web_anon"
@@ -63,9 +77,11 @@ jwt-issuer = "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_3g5LAO5c9"
 jwt-role-claim-key = ".\"cognito:groups\"[0]"
 
 server-cors-allowed-origins = "<cors-origins>"
+```
 Run PostgREST using the configuration file:
-
+```bash
 ./postgrest postgrest.conf
+```
 
 ## 4. Authentication
 PostgREST is designed to keep the database at the center of API security. All authorization happens in the database. There are three types of roles used by PostgREST, the authenticator, anonymous, and user roles.
