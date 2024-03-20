@@ -13,6 +13,7 @@ docker pull postgres:14.11
 sudo docker run --name tutorial -p {port}:5432 \
                            -e POSTGRES_PASSWORD={password} \
                            -d postgres
+```bash
 b) Install PostgREST
 Download the latest release from PostgREST GitHub Releases.
 Install PostgREST from the downloaded location:
