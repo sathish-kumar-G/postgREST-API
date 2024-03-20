@@ -12,6 +12,8 @@ Redux-PostgREST fully embraces this philosophy. Your tables, views, and function
 
 Now, when you want to query your database, then *select the response data*! 👍 
 
+![diagram](https://raw.githubusercontent.com/andytango/redux-postgrest/master/redux-postgrest.png)
+
 ## 1. Get it Running
 
 ### a) Create PostgreSQL Container
