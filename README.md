@@ -8,24 +8,29 @@ For detailed documentation and information, visit [PostgREST website](https://po
 
 ### a) Create PostgreSQL Container
 
-
+```bash
 docker pull postgres:14.11
 sudo docker run --name tutorial -p {port}:5432 \
                            -e POSTGRES_PASSWORD={password} \
                            -d postgres
+```
 
-b) Install PostgREST
+### b) Install PostgREST
 Download the latest release from PostgREST GitHub Releases.
 Install PostgREST from the downloaded location:
-
+bash
+Copy code
 tar xJf postgrest-<version>-<platform>.tar.xz
 Check whether it is installed successfully:
+bash
+Copy code
 ./postgrest -h
 
 ## 2. Create Database Schema and Table
 
 sudo docker exec -it <container-id> /bin/bash
 Inside the container shell:
+
 
 create schema api;
 create table api.todos (
@@ -60,11 +65,29 @@ jwt-role-claim-key = ".\"cognito:groups\"[0]"
 server-cors-allowed-origins = "<cors-origins>"
 Run PostgREST using the configuration file:
 
-
 ./postgrest postgrest.conf
-Additional Notes
-Make sure to replace placeholders such as <port>, <password>, <container-id>, <user-name(role-name)>, <database-name>, <secret-key>, <cors-origins>, etc. with your actual values.
-Take necessary security precautions when setting up roles and authentication.
-Ensure that proper CORS settings are configured for your application's needs.
-Monitor and maintain your PostgreSQL database and PostgREST server for optimal performance and security.
 
+## 4. Authentication
+PostgREST is designed to keep the database at the center of API security. All authorization happens in the database. There are three types of roles used by PostgREST, the authenticator, anonymous, and user roles.
+
+
+CREATE ROLE authenticator LOGIN NOINHERIT NOCREATEDB NOCREATEROLE NOSUPERUSER;
+CREATE ROLE anonymous NOLOGIN;
+CREATE ROLE webuser NOLOGIN;
+We use JSON Web Tokens (JWT) to authenticate API requests. JWT allows us to be stateless and not require database lookups for verification. As you’ll recall, a JWT contains a list of cryptographically signed claims. All claims are allowed, but PostgREST cares specifically about a claim called role.
+
+
+{
+    "role": "todo_user",
+    "exp": 123456789
+}
+Role: The database role under which to execute SQL for API requests.
+Exp: Expiration timestamp for token, expressed in “Unix epoch time”.
+
+## 5. Refer to Other Documents
+PostgREST Configuration Reference
+PostgREST Errors Reference
+PostgREST API Schemas Reference
+PostgreSQL Documentation for SQL CREATE ROLE
+PostgREST Resource Embedding Reference
+PostgREST Tables and Views Reference for Insert
