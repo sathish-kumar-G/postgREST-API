@@ -19,8 +19,8 @@ Install PostgREST from the downloaded location:
 
 tar xJf postgrest-<version>-<platform>.tar.xz
 Check whether it is installed successfully:
-
 ./postgrest -h
+
 ## 2. Create Database Schema and Table
 
 sudo docker exec -it <container-id> /bin/bash
@@ -41,6 +41,7 @@ grant select on api.todos to web_anon;
 
 create role authenticator noinherit login password '<password>';
 grant web_anon to authenticator;
+
 ## 3. Run PostgREST
 Create a configuration file named postgrest.conf with the following content:
 
