@@ -12,7 +12,7 @@ Redux-PostgREST fully embraces this philosophy. Your tables, views, and function
 
 Now, when you want to query your database, then *select the response data*! 👍 
 
-![diagram]([https://raw.githubusercontent.com/andytango/redux-postgrest/master/redux-postgrest.png](https://miro.medium.com/v2/resize:fit:684/1*mUTCOpn_TxHYbcDd0TP0xw.png))
+![diagram]([https://miro.medium.com/v2/resize:fit:684/1*mUTCOpn_TxHYbcDd0TP0xw.png]))
 
 ## 1. Get it Running
 
