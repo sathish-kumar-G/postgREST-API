@@ -341,6 +341,9 @@ Create a configuration file named postgrest.conf with the following content:
 Here's an example configuration for PostgREST:
 
 ```conf
+# port
+server-port = 3000
+
 # Database connection settings
 db-uri = "postgres://authenticator:password@localhost:5432/postgrest_db_demo"
 db-schemas = "transit_management"
