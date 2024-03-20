@@ -4,7 +4,7 @@ PostgREST is a standalone web server that turns the PostgreSQL database directly
 
 For detailed documentation and information, visit [PostgREST website](https://postgrest.org/en/v12/index.html).
 
-![PostgREST Logo](https://postgrest.org/logo.svg)
+![PostgREST Logo](https://postgrest.org/en/v12/_images/logo.png)
 
 **PostgreSQL Version**: 14  
 **PostgREST Version**: 12.0
