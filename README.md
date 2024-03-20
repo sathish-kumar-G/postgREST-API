@@ -331,6 +331,8 @@ grant usage, select on sequence transit_management.bus_stops_seq to web_user;
 ```
 ![diagram](https://postgrest.org/en/v12/_images/security-anon-choice.png)
 
+The picture above shows how the server handles authentication. If auth succeeds, it switches into the user role specified by the request, otherwise, it switches into the anonymous role.
+
 ## 3. Run PostgREST
 Create a configuration file named postgrest.conf with the following content:
 
