@@ -395,3 +395,9 @@ Ensure that the PostgreSQL database and PostgREST server are properly configured
 - [PostgREST Resource Embedding Reference](https://postgrest.org/en/v12/references/api/resource_embedding.html)
 - [PostgREST Tables and Views Reference for Insert](https://postgrest.org/en/v12/references/api/tables_views.html#insert)
 
+
+## Drawbacks
+  - Multiple Jwt Security Roles Not Supported,
+  - Pagination Supported but did not get additional details.
+  - Transaction Not Supported.
+
