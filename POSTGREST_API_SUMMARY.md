@@ -278,6 +278,7 @@ Content-Type: application/json
 Prefer: return=representation
 
 {
+    "id": 1,
     "name": "Updated Product",
     "price": 24.99,
     "category": "Electronics"
