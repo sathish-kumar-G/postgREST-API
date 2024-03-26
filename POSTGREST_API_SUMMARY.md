@@ -4,25 +4,127 @@ PostgREST is a powerful tool for automatically generating a RESTful API from an 
 
 ## Features
 
-- **Automatic API Generation**: PostgREST automatically generates a RESTful API from your PostgreSQL database schema, reducing the need for manual API development.
-  
+- **Automatic API Generation**: PostgREST automatically generates RESTful API endpoints based on the structure of your PostgreSQL database schema.
+
 - **SQL-based Filtering, Sorting, and Pagination**: Clients can filter, sort, and paginate through database resources using SQL-like query parameters in the URL.
 
 - **Role-Based Security**: PostgREST integrates with PostgreSQL's role-based security system, allowing you to control access to API endpoints based on database roles and permissions.
 
-- **JWT Authentication**: Supports JSON Web Token (JWT) authentication for secure access to API endpoints.
+- **JSON Web Token (JWT) Authentication**: Supports JWT authentication for secure access to API endpoints, allowing you to authenticate and authorize users based on tokens.
 
 - **Customizable Responses**: PostgREST allows you to customize API responses using SQL views and functions, giving you fine-grained control over the data returned to clients.
 
+- **WebSocket Support**: Supports WebSocket connections for real-time data updates and notifications from the database.
+
+- **PostgreSQL Integration**: Leverages PostgreSQL's powerful features such as JSONB data types, stored procedures, and triggers to provide efficient data access and manipulation.
+
+
+## Installation
+
+PostgREST can be installed using various methods, including binary downloads, Docker images, and package managers. Detailed installation instructions for different platforms can be found in the official documentation.
+
+## Configuration
+
+PostgREST is configured using a configuration file typically named `postgrest.conf`. This file contains settings such as database connection details, authentication options, server settings, and more. You can customize the configuration file to suit your specific requirements.
+
+```conf
+db-uri = "postgres://role-name:password@localhost:port/db_name"
+db-schemas = "schema-name"
+db-anon-role = "anon-role-name"
+
+
+# OIDC settings
+jwt-secret = "{\r\n\"alg\":\"RS256\",\r\n\"e\":\"AQAB\",\r\n\"kid\":\"4Vt3bsGUZcObyqXsjzBFMS37zVyzBm2Woog+mftLMmE=\",\r\n\"kty\":\"RSA\",\r\n\"n\":\"_PVlC0j1k0Zc6ovuQHb1c61Ita0FUGQ_-0wfQiG-73kwk_fuae8IAmFTgDmojZnM4ZpFFFeSpMhsJAM6eYklswhzKm5YygYdabRagKgyoD4_sUIkkclaX4u1fw7YGB-6fyYUxAKlfz7nt2G3HqUL29zmnXIwj4l2NLIclpHJjTOKTV3ZkG-BlSs5BOw9NRSQh56ixm_-bsx8DIh7UGlymwD-msldN6rK3u5FEbTxSOmy3U16vAdX_3G_D6KcOSU_zBpNUYc9bjlPhTp61KCgZR3DW8QxnZ1fs-u_19C_8U3FdonH5lLLlVPq51sjxJEEfR1lzUATgcIlvI5IvzyrKw\",\r\n\"use\":\"sig\"\r\n}"
+
+
+jwt-secret-is-base64 = false
+jwt-audience = "75lir73kccmkded4v2avoqnvmo"
+jwt-issuer = "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_3g5LAO5c9"
+
+# JWT role claim key for AWS Cognito groups
+jwt-role-claim-key = ".\"cognito:groups\"[0]"
+
+# Cors
+server-cors-allowed-origins = "http://localhost:3000"
+
+```
+```bash
+-- Start PostgREST server
+./postgrest postgrest.conf
+```
+
+## Docker Configuration
+
+To deploy PostgREST using Docker, you can utilize a docker-compose.yml file as shown below:
+
+```bash
+version: "3.8"
+
+services: 
+    api-server-db:
+        image: service-db
+        container_name: service-db
+        ports:
+          - "5432:5432"
+        healthcheck:
+            test: [ "CMD", "pg_isready" ]
+            interval: 10s
+            timeout: 7s
+            start_period: 2s
+            retries: 3
+        volumes:
+            - postgrest-restful-server-data:/var/lib/postgresql/data
+        restart: "no"
+        networks:
+            - postgrest
+
+      
+    api:
+      image: postgrest/postgrest:v12.0.0
+      container_name: postgrest
+      ports:
+          - "8000:8000"
+      environment:
+          PGRST_DB_URI: postgres://service_usr:service123@api-server-db:5432/service_db
+          PGRST_DB_SCHEMAS: "schema-name"
+          PGRST_DB_ANON_ROLE: service_usr
+          PGRST_SERVER_PORT: 8000
+          PGRST_JWT_SECRET: "{\"alg\":\"RS256\",\"e\":\"AQAB\",\"kid\":\"4Vt3bsGUZcObyqXsjzBFMS37zVyzBm2Woog+mftLMmE=\",\"kty\":\"RSA\",\"n\": \"_PVlC0j1k0Zc6ovuQHb1c61Ita0FUGQ_-0wfQiG-73kwk_fuae8IAmFTgDmojZnM4ZpFFFeSpMhsJAM6eYklswhzKm5YygYdabRagKgyoD4_sUIkkclaX4u1fw7YGB-6fyYUxAKlfz7nt2G3HqUL29zmnXIwj4l2NLIclpHJjTOKTV3ZkG-BlSs5BOw9NRSQh56ixm_-bsx8DIh7UGlymwD-msldN6rK3u5FEbTxSOmy3U16vAdX_3G_D6KcOSU_zBpNUYc9bjlPhTp61KCgZR3DW8QxnZ1fs-u_19C_8U3FdonH5lLLlVPq51sjxJEEfR1lzUATgcIlvI5IvzyrKw\",\"use\":\"sig\"}"
+          PGRST_JWT_SECRET_IS_BASE64: "false"
+          PGRST_JWT_AUDIENCE: "75lir73kccmkded4v2avoqnvmo"
+          PGRST_JWT_ISSUER: "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_3g5LAO5c9"
+          PGRST_JWT_ROLE_CLAIM_KEY: ".\"cognito:groups\"[0]"
+          PGRST_SERVER_CORS_ALLOWED_ORIGINS: "http://localhost:8080"
+          PGRST_OPENAPI_SECURITY_ACTIVE: true
+      volumes:
+          - postgrest-restful-server-data:/var/lib/postgresql/data
+      restart: "no"
+      networks:
+          - postgrest
+
+volumes:
+    postgrest-restful-server-data:
+
+networks:
+    postgrest:
+
+```
+
+This docker-compose.yml file defines two services: api-server-db for the PostgreSQL database and api for the PostgREST server. Adjust the configuration according to your specific setup and requirements.
+
+
 ## Usage
 
-1. **Installation**: Install PostgREST using your preferred method (e.g., binary download, Docker image, package manager).
+1. **Define Database Schema**: Design your database schema in PostgreSQL, including tables, views, functions, and triggers as needed.
 
-2. **Configuration**: Configure PostgREST by specifying the database connection details, authentication settings, and other options in a configuration file.
+2. **Install PostgREST**: Install PostgREST on your server or local machine according to the installation instructions provided in the documentation.
 
-3. **Start the Server**: Start the PostgREST server, specifying the configuration file and the port on which the server should listen for incoming requests.
+3. **Configure PostgREST**: Create a configuration file (`postgrest.conf`) and specify the required settings such as database connection details, authentication options, and server settings.
 
-4. **Access the API**: Once the server is running, clients can access the API endpoints using HTTP requests, such as GET, POST, PUT, DELETE, etc.
+4. **Start PostgREST Server**: Start the PostgREST server by providing the path to the configuration file and optionally specifying the port on which the server should listen for incoming requests.
+
+5. **Access the API**: Once the server is running, clients can access the generated API endpoints using standard HTTP methods (GET, POST, PUT, DELETE, etc.) and interact with the database resources.
+
 
 ## Example
 
