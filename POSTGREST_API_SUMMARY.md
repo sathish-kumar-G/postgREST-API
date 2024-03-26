@@ -48,3 +48,9 @@ INSERT INTO products (name, price, category) VALUES
 -- Start PostgREST server
 postgrest my_config_file.conf
 ```
+
+This will generate API endpoints for accessing the products table, allowing clients to perform CRUD operations on the data.
+
+## Conclusion
+
+PostgREST simplifies the process of building RESTful APIs by automatically generating endpoints from PostgreSQL databases. With its support for advanced features like filtering, authentication, and customizable responses, PostgREST is a valuable tool for building scalable and secure API backends.
