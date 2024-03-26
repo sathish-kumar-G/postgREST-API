@@ -159,7 +159,7 @@ To retrieve a paginated and sorted list of products, you can send a GET request 
 
 Example request to retrieve the first 10 products sorted by name in ascending order:
 
-```http
+```curl
 GET /products?limit=10&offset=0&order=name.asc
 ```
 
