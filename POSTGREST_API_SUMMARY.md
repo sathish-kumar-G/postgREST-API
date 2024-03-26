@@ -261,12 +261,14 @@ Prefer: return=representation
 Sample Response:
 
 ```json
+[
 {
     "id": 3,
     "name": "New Product",
     "price": 19.99,
     "category": "Electronics"
 }
+]
 ```
 
 ### 5. Update (PUT) a Product by ID
@@ -289,12 +291,14 @@ Prefer: return=representation
 Sample Response:
 
 ```json
+[
 {
     "id": 1,
     "name": "Updated Product",
     "price": 24.99,
     "category": "Electronics"
 }
+]
 ```
 
 ### 6. Delete All Products
