@@ -349,7 +349,7 @@ This table provides a comparison of different backend development approaches, hi
 | Integration with Ecosystem | Spring Boot seamlessly integrates with the broader Spring ecosystem, providing access to a wide range of libraries, tools, and community support. | PostgREST may have limitations in terms of ecosystem integration, potentially requiring workarounds or additional effort for certain functionalities not directly supported by PostgREST. |
 | Control over API Behavior  | Spring Boot allows fine-grained control over API behavior and request processing, facilitating customization according to application needs. | PostgREST abstracts away some of the low-level API handling, potentially limiting control over certain aspects of API behavior and performance optimization. |
 | Performance Optimization   | Spring Boot applications offer flexibility for performance optimization through various techniques such as caching, query optimization, and asynchronous processing. | PostgREST may have limitations in terms of performance optimization, especially for complex queries or high-volume workloads, requiring additional optimizations at the database or application layer. |
-                                                                                |
+                                                                                
 
 ## Conclusion
 
