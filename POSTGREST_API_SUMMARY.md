@@ -25,7 +25,7 @@ PostgREST can be installed using various methods, including binary downloads, Do
 
 ## Configuration
 
-PostgREST is configured using a configuration file typically named `postgrest.conf`. This file contains settings such as database connection details, authentication options, server settings, and more. You can customize the configuration file to suit your specific requirements.
+1) PostgREST is configured using a configuration file typically named `postgrest.conf`. This file contains settings such as database connection details, authentication options, server settings, and more. You can customize the configuration file to suit your specific requirements.
 
 ```conf
 db-uri = "postgres://role-name:password@localhost:port/db_name"
@@ -53,7 +53,7 @@ server-cors-allowed-origins = "http://localhost:3000"
 ./postgrest postgrest.conf
 ```
 
-## Docker Configuration
+### Docker Configuration
 
 To deploy PostgREST using Docker, you can utilize a docker-compose.yml file as shown below:
 
