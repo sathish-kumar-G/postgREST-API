@@ -14,10 +14,6 @@ PostgREST is a powerful tool for automatically generating a RESTful API from an 
 
 - **Customizable Responses**: PostgREST allows you to customize API responses using SQL views and functions, giving you fine-grained control over the data returned to clients.
 
-- **WebSocket Support**: Supports WebSocket connections for real-time data updates and notifications from the database.
-
-- **PostgreSQL Integration**: Leverages PostgreSQL's powerful features such as JSONB data types, stored procedures, and triggers to provide efficient data access and manipulation.
-
 
 ## Installation
 
