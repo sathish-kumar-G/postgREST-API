@@ -344,17 +344,12 @@ This table provides a comparison of different backend development approaches, hi
 
 | Aspect               | PostgREST                                       | Spring Boot                                      |
 |----------------------|-------------------------------------------------|--------------------------------------------------|
-| Rapid API Development| Simplifies API development by auto-generating   | Requires manual implementation of API endpoints  |
-|                      | RESTful endpoints from PostgreSQL database      | and request handling logic                        |
+| Rapid API Development| Simplifies API development by auto-generating  RESTful endpoints from PostgreSQL database   | Requires manual implementation of API endpoints and request handling logic  |
 | Lightweight Solution| Lightweight and minimalist approach            | Comprehensive framework with broader feature set |
-| Scalability          | Scales well for simple CRUD operations         | Scales well for complex applications and        |
-|                      |                                                 | enterprise-level deployments                       |
-| Database Integration | Seamless integration with PostgreSQL database   | Requires additional configuration and setup for  |
-|                      |                                                 | integrating with PostgreSQL                        |
-| Reduced Boilerplate  | Reduces the need for boilerplate code          | Requires more code for setting up and            |
-|                      |                                                 | configuring API endpoints                          |
-| Prototyping          | Ideal for rapid prototyping and building simple| Suitable for building complex, scalable, and     |
-|                      | CRUD-based applications                        | feature-rich applications                          |
+| Scalability          | Scales well for simple CRUD operations         | Scales well for complex applications and enterprise-level deployments |
+| Database Integration | Seamless integration with PostgreSQL database   | Requires additional configuration and setup for integrating with PostgreSQL |
+| Reduced Boilerplate  | Reduces the need for boilerplate code          | Requires more code for setting up and configuring API endpoints |
+| Prototyping          | Ideal for rapid prototyping and building simple CRUD-based applications | Suitable for building complex, scalable, and feature-rich applications |
 
 
 
@@ -368,14 +363,10 @@ This table provides a comparison of different backend development approaches, hi
 | Control over API Behavior  | Spring Boot allows fine-grained control over API behavior and request processing, facilitating customization according to application needs. | PostgREST abstracts away some of the low-level API handling, potentially limiting control over certain aspects of API behavior and performance optimization. |
 | Performance Optimization   | Spring Boot applications offer flexibility for performance optimization through various techniques such as caching, query optimization, and asynchronous processing. | PostgREST may have limitations in terms of performance optimization, especially for complex queries or high-volume workloads, requiring additional optimizations at the database or application layer. |
 | JWT Security Roles         | Spring Boot supports multiple JWT security roles, allowing for more granular access control and authorization strategies. | PostgREST only supports a single JWT security role, which may limit the complexity of access control policies and authorization mechanisms in multi-role environments. |
-| @Transactional Support     | Spring Boot provides built-in support for declarative transaction management using the `@Transactional` annotation, allowing for the management of database transactions within service methods. | PostgREST does not offer built-in support for transaction management, requiring developers to handle transactions at the database level or implement custom solutions for transaction management. |
+| Transactional Support     | Spring Boot provides built-in support for declarative transaction management using the `@Transactional` annotation, allowing for the management of database transactions within service methods. | PostgREST does not offer built-in support for transaction management, requiring handling transactions at the database level or implementing custom solutions(function or stored procedures) for transaction management. |
 
-### Implementing Custom Solutions for Transaction Management in PostgREST:
 
-When using PostgREST, developers may need to implement custom solutions for transaction management. This typically involves handling transactions at the database level using PostgreSQL's transaction capabilities or implementing custom logic within the application layer to ensure data consistency and integrity. While this approach provides flexibility, it requires additional effort and may result in more complex code compared to
-
-                                                                                
-
+                                                                              
 ## Conclusion
 
 PostgREST simplifies the process of building RESTful APIs by automatically generating endpoints from PostgreSQL databases. With its support for advanced features like filtering, authentication, and customizable responses, PostgREST is a valuable tool for building scalable and secure API backends.
