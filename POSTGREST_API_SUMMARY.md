@@ -329,13 +329,14 @@ These examples demonstrate how to perform various CRUD operations using the API 
 
 | Functionality     | SpringBoot | SpringBoot (BFF) with Postgrest | Postgrest |
 |-------------------|------------|-----------------------------------|-----------|
-| Postgres DB Setup          | yes        | yes                               | yes       |
-| Postgrest Setup   | no         | yes                               | yes       |
-| BFF               | yes        | yes                               | no        |
-| Entity            | yes        | no                                | no        |
-| Dao               | yes        | no                                | no        |
-| Service-Svc       | yes        | no                                | no        |
-| Dto               | yes        | yes                               | no        |
+| Postgres DB Setup          | &#10004;    | &#10004;                               | &#10004;       |
+| Postgrest Setup   | &#10060;         | &#10004;                               | &#10004;       |
+| BFF               | &#10004;        | &#10004;                               | &#10060;        |
+| Entity            | &#10004;        | &#10060;                                | &#10060;        |
+| Dao               | &#10004;        | &#10060;                                | &#10060;        |
+| Service-Svc       | &#10004;        | &#10060;                                | &#10060;        |
+| Dto               | &#10004;        | &#10004;                               | &#10060;        |
+
 
 This table provides a comparison of different backend development approaches, highlighting which functionalities are supported by each approach. 
 
