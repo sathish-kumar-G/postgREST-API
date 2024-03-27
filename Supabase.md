@@ -1,6 +1,6 @@
-# Supabase Documentation
+# Supabase
 
-Welcome to the official documentation for Supabase, an open-source Firebase alternative that provides a suite of tools for building scalable web applications. This documentation serves as a comprehensive guide for developers to get started with Supabase and leverage its various features to streamline their development process.
+Supabase is an open-source Firebase alternative that provides a suite of tools for building scalable web applications. This documentation serves as a comprehensive guide for developers to get started with Supabase and leverage its various features to streamline their development process.
 
 ## Introduction
 
@@ -10,39 +10,35 @@ Supabase offers a range of services including a PostgreSQL database, real-time d
 
 To start using Supabase, you'll first need to [sign up for an account](https://supabase.io/) on the Supabase website. Once you've signed up, you can create a new project and get access to your Supabase dashboard where you can manage your database, authentication settings, storage, and more.
 
-## Features
+## Architecture Overview
 
-### PostgreSQL Database
+Supabase's architecture is designed to provide developers with a robust and scalable backend infrastructure for building modern web applications. Here's an in-depth look at the key components of Supabase's architecture:
 
-Supabase utilizes PostgreSQL as its primary database engine, providing a powerful and reliable relational database solution for storing and managing your application's data.
+### Architecture Diagram
 
-### Real-time Database
+![Supabase Architecture](https://supabase.com/docs/_next/image?url=%2Fdocs%2Fimg%2Fsupabase-architecture.svg&w=2048&q=75)
 
-With Supabase's real-time database functionality, you can build applications that receive instant updates whenever there are changes to the data in your database. This is achieved through WebSocket connections that allow clients to subscribe to database changes in real-time.
+*Diagram showing the architecture of Supabase. The Kong API gateway sits in front of 7 services: GoTrue, PostgREST, Realtime, Storage, pg_meta, Functions, and pg_graphql. All the services talk to a single Postgres instance.*
 
-### Authentication
+### Explanation
 
-Supabase offers authentication services to manage user authentication and authorization within your applications. It supports various authentication methods including email/password, OAuth providers (Google, GitHub, etc.), and JWT for secure authentication and authorization.
+The architecture diagram illustrates the various components that make Supabase's backend infrastructure:
 
-### Object Storage
+1. **Kong API Gateway**: The Kong API gateway sits in front of the Supabase services, serving as an entry point for client requests. It manages traffic, routing, security, and other API-related tasks.
 
-Supabase includes object storage capabilities for storing and serving files such as images, videos, documents, etc. It integrates with cloud storage providers like AWS S3 or Google Cloud Storage to store files securely and efficiently.
+2. **Services**:
+   - **GoTrue**: Responsible for handling user authentication and authorization. It supports various authentication methods such as email/password, OAuth providers, and JWT tokens.
+   - **PostgREST**: Generates RESTful APIs for database operations, allowing developers to perform CRUD operations on the underlying PostgreSQL database using HTTP methods.
+   - **Realtime**: Provides real-time database functionality by facilitating WebSocket connections between clients and the server. Clients receive instant updates whenever there are changes to the data in the database.
+   - **Storage**: Offers object storage capabilities for storing and serving files such as images, videos, and documents. It integrates with cloud storage providers for efficient file storage and retrieval.
+   - **pg_meta**: Manages metadata for the PostgreSQL database, ensuring consistency and integrity of the database schema.
+   - **Functions**: Allows developers to deploy serverless functions written in languages like JavaScript/Node.js. These functions extend the functionality of applications and can be used for custom business logic or integration with external services.
+   - **pg_graphql**: Provides GraphQL API capabilities for interacting with the PostgreSQL database, offering a flexible and powerful query language for data retrieval and manipulation.
 
-### Serverless Functions
+3. **PostgreSQL Database**: All the services interact with a single PostgreSQL instance, which serves as the primary data store for Supabase. PostgreSQL provides reliability, scalability, and rich features for storing and managing application data.
 
-Supabase allows you to deploy serverless functions written in popular programming languages like JavaScript/Node.js. These functions can be used to extend the functionality of your applications, implement custom business logic, or integrate with external services.
+The architecture of Supabase is designed to be scalable, reliable, and feature-rich, providing developers with a comprehensive backend solution for building modern web applications.
 
-## Documentation
-
-This documentation provides detailed guides, tutorials, and reference materials to help you make the most out of Supabase. Whether you're new to Supabase or an experienced developer, you'll find everything you need to build and deploy powerful web applications.
-
-## Community
-
-Join the Supabase community to connect with other developers, ask questions, share ideas, and contribute to the ongoing development of Supabase. You can find us on [Discord](https://discord.gg/f6hq3Nk) and [GitHub](https://github.com/supabase).
-
-## Support
-
-If you encounter any issues or have questions about using Supabase, don't hesitate to reach out to our support team. You can contact us via email or through our community channels, and we'll be happy to assist you.
 
 ## Conclusion
 
